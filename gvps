@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+# Your Custom Dev VPS Tools - 2026 Edition
+# Simple menu for GitHub/IDX tricks - by [YourName]
+
+clear
+
+# Colors (different from Jishnu - purple theme)
+P="\e[1;35m"  # Purple
+C="\e[1;36m"  # Cyan
+G="\e[1;32m"  # Green
+R="\e[1;31m"  # Red
+N="\e[0m"
+
+echo -e "${P}══════════════════════════════════════${N}"
+echo -e "   YOUR DEV TOOLS MENU"
+  echo -e "   Made by [Vexron]"
+echo -e "${P}══════════════════════════════════════${N}\n"
+
+echo " [1] 🚀 GitHub Container Shell"
+echo " [2] 🛠️  IDX Quick Setup"
+echo " [3] Exit"
+echo ""
+echo -e "${P}══════════════════════════════════════${N}"
+echo -ne "${C}Choose [1-3] → ${G}"
+read -r choice
+echo -e "${N}"
+
+case $choice in
+  1)
+    echo -e "${G}Launching lightweight container shell...${N}"
+    echo "This runs a basic Ubuntu container with persistence."
+    
+    mkdir -p ~/mycontainerdata
+    
+    docker run -it --rm \
+      --name mydevshell \
+      -v ~/mycontainerdata:/data \
+      -e PS1="\[\e[1;32m\][MyDevShell] \w \$ \[\e[0m\]" \
+      ubuntu:24.04 bash
+    ;;
+    
+  2)
+    echo -e "${G}Setting up basic IDX config...${N}"
+    mkdir -p ~/idx-project/.idx
+    cat > ~/idx-project/.idx/dev.nix << 'EOF'
+{ pkgs, ... }: {
+  channel = "stable-24.05";
+  packages = with pkgs; [ git curl neovim ];
+  env = { };
+  scripts = {
+    hello.exec = "echo 'Welcome to your IDX project!'";
+  };
+}
+EOF
+    echo -e "${G}Created dev.nix in ~/idx-project/.idx/${N}"
+    echo "Open this folder in IDX → it should detect the config."
+    ;;
+    
+  3)
+    echo -e "${R}Goodbye!${N}"
+    exit 0
+    ;;
+    
+  *)
+    echo -e "${R}Invalid choice.${N}"
+    sleep 1
+    exec "$0"  # Restart menu
+    ;;
+esac
+
+echo -e "\n${C}Press Enter to return...${N}"
+read -r
+exec "$0"  # Loop back to menu
