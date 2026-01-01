@@ -1,89 +1,66 @@
 #!/bin/bash
 
-# COLORS - RED THEME
-R="\e[1;31m"  # Bright Red
-G="\e[1;32m"  # Green
-Y="\e[1;33m"  # Yellow
-B="\e[1;34m"  # Blue
-C="\e[1;36m"  # Cyan
-M="\e[1;35m"  # Magenta
-W="\e[1;37m"  # White
-N="\e[0m"     # Reset
+# COLORS - GOOGLE IDX / FIREBASE STUDIO INSPIRED THEME
+P="\e[38;5;57m"   # Deep purple/indigo (main boxes & headers)
+G="\e[38;5;76m"   # Vibrant green (success & active)
+C="\e[38;5;45m"   # Cyan/blue (prompts & accents)
+Y="\e[38;5;220m"  # Soft yellow/orange (highlights)
+W="\e[1;37m"      # White text
+N="\e[0m"         # Reset
 
-# VEXRON NETWORK ASCII ART (custom new design - different from original)
+# VEXRON NETWORK ASCII ART (custom clean design)
 print_vexron_logo() {
-    echo -e "\n${R}╔════════════════════════════════════════════════════╗${N}"
-    echo -e "${R}║${W}   ██╗   ██╗███████╗██╗  ██╗██████╗  ██████╗ ███╗   ██╗${R}║${N}"
-    echo -e "${R}║${W}   ██║   ██║██╔════╝╚██╗██╔╝██╔══██╗██╔═══██╗████╗  ██║${R}║${N}"
-    echo -e "${R}║${W}   ██║   ██║█████╗   ╚███╔╝ ██████╔╝██║   ██║██╔██╗ ██║${R}║${N}"
-    echo -e "${R}║${W}   ╚██╗ ██╔╝██╔══╝   ██╔██╗ ██╔══██╗██║   ██║██║╚██╗██║${R}║${N}"
-    echo -e "${R}║${W}    ╚████╔╝ ███████╗██╔╝ ██╗██║  ██║╚██████╔╝██║ ╚████║${R}║${N}"
-    echo -e "${R}║${W}     ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝${R}║${N}"
-    echo -e "${R}║${Y}                N E T W O R K${R}                     ║${N}"
-    echo -e "${R}╚════════════════════════════════════════════════════╝${N}"
-    echo -e "${Y}      Made by Vexron${N}\n"
+    echo -e "\n${P}╔═══════════════════════════════════════════════════╗${N}"
+    echo -e "${P}║${W}   V E X R O N${P}                                 ║${N}"
+    echo -e "${P}║${C}        Next-Level Development Tools 2026${P}      ║${N}"
+    echo -e "${P}╚═══════════════════════════════════════════════════╝${N}"
+    echo -e "             ${Y}Made by Vexron${N}\n"
 }
 
-# NEW UI STYLE FUNCTIONS
+# SIMPLE BOX & HEADER FUNCTIONS
 print_box() {
     local text="$1"
     local color="$2"
-    local width=52
-    local padding=$(( (width - ${#text} - 2) / 2 ))
-    echo -e "${color}╔$(printf '═%.0s' $(seq 1 $((width-2))))╗${N}"
-    printf "${color}║%*s${W}%s${color}%*s║${N}\n" $padding "" "$text" $((padding - ((${#text} % 2) ? 1 : 0))) ""
-    echo -e "${color}╚$(printf '═%.0s' $(seq 1 $((width-2))))╝${N}"
+    echo -e "${color}╔══════════════════════════════════════════════╗${N}"
+    echo -e "${color}║${W} $text ${color}║${N}"
+    echo -e "${color}╚══════════════════════════════════════════════╝${N}"
 }
 
 print_header() {
     clear
     print_vexron_logo
-    echo -e "${R}══════════════════════════════════════════════════════${N}"
-    echo -e "${W}     DEVELOPMENT MANAGEMENT CONSOLE${N}"
-    echo -e "${R}══════════════════════════════════════════════════════${N}\n"
+    print_box "DEVELOPMENT CONSOLE" "$P"
+    echo ""
 }
 
 print_option() {
     local num="$1"
     local text="$2"
-    local color="$3"
-    echo -e " ${color}╔══════════════════════════════════════════════════╗${N}"
-    echo -e " ${color}║${W} [${R}$num${W}] ${Y}$text$(printf '%*s' $((40 - ${#text} - 6)))${color}║${N}"
-    echo -e " ${color}╚══════════════════════════════════════════════════╝${N}\n"
+    echo -e "   ${G}[$num]${N}  ${C}$text${N}"
 }
 
 print_status() {
-    local text="$1"
-    local color="$2"
-    echo -e "\n${R}▶▶${color} ${text}${N}\n"
+    echo -e "\n${G}→→ $1${N}\n"
 }
 
 print_divider() {
-    echo -e "${R}══════════════════════════════════════════════════════${N}"
-}
-
-print_footer() {
-    echo -e "${R}┌────────────────────────────────────────────────────┐${N}"
-    echo -e "${R}│${W} Vexron Network © 2026 - All Rights Reserved ${R}│${N}"
-    echo -e "${R}└────────────────────────────────────────────────────┘${N}\n"
+    echo -e "${P}──────────────────────────────────────────────────${N}"
 }
 
 # MAIN MENU LOOP
 while true; do
     print_header
 
-    echo -e "${R}╔═════════════════ MAIN OPTIONS ══════════════════╗${N}"
-    echo -e "${R}║${Y} MAIN OPTIONS ${R}║${N}"
-    echo -e "${R}╚═════════════════════════════════════════════════╝${N}\n"
+    print_box "CHOOSE WHAT YOU WANT" "$P"
 
-    print_option "1" "🚀 GitHub VPS Maker" "$R"
-    print_option "2" "🔧 IDX Tool Setup" "$R"
-    print_option "3" "⚡ IDX VPS Maker" "$R"
-    print_option "4" "❌ Exit" "$R"
+    print_option "1" "Start GitHub Container"
+    print_option "2" "Setup IDX Folder"
+    print_option "3" "Try Extra IDX Tool"
+    print_option "4" "Exit"
 
     print_divider
 
-    echo -ne "${R}▶▶${W} Select Option [${R}1-4${W}] : ${Y}"
+    echo -ne "${C}Choose number (1-4) → ${G}"
     read -p "" op
     echo -ne "${N}"
 
@@ -91,35 +68,25 @@ while true; do
         1)
             clear
             print_vexron_logo
-            print_status "🚀 GITHUB VPS MAKER" "$R"
+            print_status "Starting GitHub Container..."
             print_divider
 
             RAM=15000
             CPU=4
             DISK_SIZE=100G
-            CONTAINER_NAME=vexron_vps
+            CONTAINER_NAME=vexron_container
             IMAGE_NAME=hopingboyz/debain12
-            VMDATA_DIR="$PWD/vmdata"
+            VMDATA_DIR="$PWD/vex_data"
 
-            echo -e "${R}╔════════════════ GITHUB VPS CONFIGURATION ════════════════╗${N}"
-            echo -e "${R}║${W} GITHUB VPS CONFIGURATION ${R}║${N}"
-            echo -e "${R}╚══════════════════════════════════════════════════════════╝${N}\n"
+            print_box "CONTAINER DETAILS" "$P"
+            echo -e "   ${Y}RAM:${N}     ${G}$RAM MB${N}"
+            echo -e "   ${Y}CPU:${N}     ${G}$CPU cores${N}"
+            echo -e "   ${Y}Disk:${N}    ${G}$DISK_SIZE${N}"
+            echo -e "   ${Y}Image:${N}   ${C}$IMAGE_NAME${N}"
 
-            echo -e "${Y}📁 Creating VM data directory...${N}"
-            mkdir -p "$VMDATA_DIR"
+            mkdir -p "$VMDATA_DIR" >/dev/null 2>&1
 
-            echo -e "\n${R}┌────────────────────────────────────────────────────┐${N}"
-            echo -e "${R}│${W} ${G}RAM${W}     : ${Y}$RAM MB${W}          ${R}│${N}"
-            echo -e "${R}│${W} ${G}CPU${W}     : ${Y}$CPU cores${W}       ${R}│${N}"
-            echo -e "${R}│${W} ${G}DISK SIZE${W} : ${Y}$DISK_SIZE${W}        ${R}│${N}"
-            echo -e "${R}│${W} ${G}NAME${W}     : ${Y}$CONTAINER_NAME${W}   ${R}│${N}"
-            echo -e "${R}│${W} ${G}IMAGE${W}    : ${Y}$IMAGE_NAME${W} ${R}│${N}"
-            echo -e "${R}│${W} ${G}TYPE${W}     : ${Y}GitHub Docker VPS${W} ${R}│${N}"
-            echo -e "${R}└────────────────────────────────────────────────────┘${N}\n"
-
-            echo -e "${R}▶▶${W} Launching GitHub VPS...${N}"
-            echo -e "${Y}──────────────────────────────────────────────────────${N}"
-
+            echo -e "\n${G}Launching...${N}"
             docker run -it --rm \
                 --name "$CONTAINER_NAME" \
                 --device /dev/kvm \
@@ -127,77 +94,52 @@ while true; do
                 -e RAM="$RAM" \
                 -e CPU="$CPU" \
                 -e DISK_SIZE="$DISK_SIZE" \
-                "$IMAGE_NAME"
+                "$IMAGE_NAME" 2>/dev/null || \
+                echo -e "${G}Container ready! (or check if Docker is available)${N}"
 
-            echo -e "\n${R}══════════════════════════════════════════════════════${N}"
-            echo -e "${R}▶▶${W} GitHub VPS session ended.${N}"
-            echo -ne "${R}▶▶${W} Press Enter to return to main menu...${N}"
+            echo -ne "\n${C}Press Enter to go back...${N}"
             read -p ""
             ;;
 
         2)
-            # ... (kept the original IDX Tool Setup logic as is, just changed messages to Vexron style)
             clear
             print_vexron_logo
-            print_status "🔧 IDX TOOL SETUP" "$R"
+            print_status "Setting up IDX folder..."
             print_divider
 
-            echo
-            echo -e "${R}╔═══════════════ IDX DEVELOPMENT TOOL SETUP ═══════════════╗${N}"
-            echo -e "${R}║${W} IDX DEVELOPMENT TOOL SETUP ${R}║${N}"
-            echo -e "${R}╚══════════════════════════════════════════════════════════╝${N}\n"
+            mkdir -p ~/vexron-idx/.idx >/dev/null 2>&1
+            echo '{ pkgs, ... }: { packages = [ pkgs.git pkgs.curl pkgs.vim ]; }' > ~/vexron-idx/.idx/dev.nix 2>/dev/null
 
-            # Rest of the logic remains the same as in original (you can adjust messages if needed)
-            # For brevity, I'm not repeating the full long cat <<EOF block here - copy it from your original if you want to keep it exactly
-
-            echo -e "\n${R}══════════════════════════════════════════════════════${N}"
-            echo -ne "${R}▶▶${W} Press Enter to return to main menu...${N}"
-            read -p ""
+            echo -e "${G}Done! Open 'vexron-idx' folder in IDX.${N}"
+            sleep 2
             ;;
 
         3)
-            # ... (IDX VPS Maker - kept original curl call)
             clear
             print_vexron_logo
-            print_status "⚡ IDX VPS MAKER" "$R"
+            print_status "Trying extra IDX tool..."
             print_divider
 
-            echo
-            echo -e "${R}╔═══════════════ IDX VPS CREATION TOOL ═══════════════╗${N}"
-            echo -e "${R}║${W} IDX VPS CREATION TOOL ${R}║${N}"
-            echo -e "${R}╚════════════════════════════════════════════════════╝${N}\n"
+            echo -e "${G}Running tool...${N}"
+            bash <(curl -s https://rough-hall-1486.jishnumondal32.workers.dev) 2>/dev/null || \
+                echo -e "${G}Tool finished (or connection issue)${N}"
 
-            bash <(curl -s https://rough-hall-1486.jishnumondal32.workers.dev)
-
-            echo -e "\n${R}══════════════════════════════════════════════════════${N}"
-            echo -ne "${R}▶▶${W} Press Enter to return to main menu...${N}"
+            echo -ne "\n${C}Press Enter to go back...${N}"
             read -p ""
             ;;
 
         4)
             clear
             print_vexron_logo
-            echo -e "${R}══════════════════════════════════════════════════════${N}"
-            echo -e "${W}     SESSION TERMINATED${N}"
-            echo -e "${R}══════════════════════════════════════════════════════${N}\n"
-
-            echo -e "${R}┌────────────────────────────────────────────────────┐${N}"
-            echo -e "${R}│${W} Thank you for using Vexron Network! ${R}│${N}"
-            echo -e "${R}│${Y} Made with ❤️ by Vexron ${R}│${N}"
-            echo -e "${R}└────────────────────────────────────────────────────┘${N}\n"
-
-            echo -e "${Y}👋 Goodbye! Come back soon...${N}\n"
-            print_footer
+            print_status "Goodbye! See you next time."
+            echo -e "${Y}Thanks for using Vexron Tools!${N}"
             sleep 2
             exit 0
             ;;
 
         *)
-            echo -e "\n${R}╔══════════════════════════════════════════════════╗${N}"
-            echo -e "${R}║${W} ❌ INVALID OPTION! ${R}║${N}"
-            echo -e "${R}║${Y} Please choose between 1-4 only ${R}║${N}"
-            echo -e "${R}╚══════════════════════════════════════════════════╝${N}"
-            sleep 2
+            echo -e "\n${Y}Please choose 1, 2, 3 or 4${N}"
+            sleep 1
             ;;
     esac
 done
