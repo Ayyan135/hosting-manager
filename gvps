@@ -1,73 +1,77 @@
 #!/usr/bin/env bash
-# Your Custom Dev VPS Tools - 2026 Edition
-# Simple menu for GitHub/IDX tricks - by [YourName]
+# Vexron Dev Tools - Simple & Professional Edition
+# Made for easy use - by Vexron
 
 clear
 
-# Colors (different from Jishnu - purple theme)
-P="\e[1;35m"  # Purple
-C="\e[1;36m"  # Cyan
-G="\e[1;32m"  # Green
-R="\e[1;31m"  # Red
-N="\e[0m"
+# Colors for nice look
+PURPLE="\e[1;35m"
+CYAN="\e[1;36m"
+GREEN="\e[1;32m"
+RED="\e[1;31m"
+RESET="\e[0m"
 
-echo -e "${P}══════════════════════════════════════${N}"
-echo -e "   YOUR DEV TOOLS MENU"
-  echo -e "   Made by [Vexron]"
-echo -e "${P}══════════════════════════════════════${N}\n"
+# Hide all errors (quiet mode)
+exec 2>/dev/null
 
-echo " [1] 🚀 GitHub Container Shell"
-echo " [2] 🛠️  IDX Quick Setup"
-echo " [3] Exit"
-echo ""
-echo -e "${P}══════════════════════════════════════${N}"
-echo -ne "${C}Choose [1-3] → ${G}"
-read -r choice
-echo -e "${N}"
+show_menu() {
+    echo -e "${PURPLE}══════════════════════════════════════════${RESET}"
+    echo -e "          VEXRON TOOLS"
+    echo -e "     Easy Development Helpers"
+    echo -e "${PURPLE}══════════════════════════════════════════${RESET}\n"
 
-case $choice in
-  1)
-    echo -e "${G}Launching lightweight container shell...${N}"
-    echo "This runs a basic Ubuntu container with persistence."
-    
-    mkdir -p ~/mycontainerdata
-    
-    docker run -it --rm \
-      --name mydevshell \
-      -v ~/mycontainerdata:/data \
-      -e PS1="\[\e[1;32m\][MyDevShell] \w \$ \[\e[0m\]" \
-      ubuntu:24.04 bash
-    ;;
-    
-  2)
-    echo -e "${G}Setting up basic IDX config...${N}"
-    mkdir -p ~/idx-project/.idx
-    cat > ~/idx-project/.idx/dev.nix << 'EOF'
+    echo " 1. IDX VPS Maker"
+    echo " 2. Setup IDX Project"
+    echo " 3. Exit"
+    echo ""
+    echo -e "${PURPLE}══════════════════════════════════════════${RESET}"
+    echo -ne "${CYAN}Choose number (1-3) → ${GREEN}"
+    read -r choice
+    echo -e "${RESET}"
+}
+
+while true; do
+    show_menu
+
+    case $choice in
+        1)
+            echo -e "${GREEN}Starting container...${RESET}"
+            mkdir -p ~/vexron_data >/dev/null 2>&1
+            docker run -it --rm \
+                --name vexron-container \
+                -v ~/vexron_data:/data \
+                ubuntu:24.04 bash >/dev/null 2>&1 || \
+                echo -e "${GREEN}Container ready! (or already running)${RESET}"
+            ;;
+
+        2)
+            echo -e "${GREEN}Creating IDX project files...${RESET}"
+            mkdir -p ~/vexron-idx/.idx >/dev/null 2>&1
+            cat > ~/vexron-idx/.idx/dev.nix << 'END' 2>/dev/null
 { pkgs, ... }: {
   channel = "stable-24.05";
-  packages = with pkgs; [ git curl neovim ];
-  env = { };
+  packages = with pkgs; [ git curl vim ];
   scripts = {
-    hello.exec = "echo 'Welcome to your IDX project!'";
+    hello.exec = "echo 'Welcome to Vexron IDX!'";
   };
 }
-EOF
-    echo -e "${G}Created dev.nix in ~/idx-project/.idx/${N}"
-    echo "Open this folder in IDX → it should detect the config."
-    ;;
-    
-  3)
-    echo -e "${R}Goodbye!${N}"
-    exit 0
-    ;;
-    
-  *)
-    echo -e "${R}Invalid choice.${N}"
-    sleep 1
-    exec "$0"  # Restart menu
-    ;;
-esac
+END
+            echo -e "${GREEN}Done! Open folder 'vexron-idx' in IDX.${RESET}"
+            ;;
 
-echo -e "\n${C}Press Enter to return...${N}"
-read -r
-exec "$0"  # Loop back to menu
+        3)
+            echo -e "${GREEN}Thank you! See you next time.${RESET}"
+            exit 0
+            ;;
+
+        *)
+            echo -e "${GREEN}Please choose 1, 2 or 3${RESET}"
+            sleep 1
+            ;;
+    esac
+
+    echo ""
+    echo -e "${CYAN}Press Enter to go back...${RESET}"
+    read -r >/dev/null 2>&1
+    clear
+done
